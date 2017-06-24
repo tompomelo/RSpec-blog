@@ -19,6 +19,11 @@ class ArticlesController < ApplicationController
     end
   end
   
+  #params id - this is when you hover over a link, and shows the id of an article
+  def show
+    @article = Article.find(params[:id])  
+  end
+  
   private
   
   def article_params
