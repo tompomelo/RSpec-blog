@@ -12,7 +12,7 @@ RSpec.feature "Deleting an Article" do
         click_link @article.title
         click_link "Delete Article"
         
-        expect(page).to have_current("Article has been deleted")
+
         expect(current_path).to eq(articles_path)
     end
 end
