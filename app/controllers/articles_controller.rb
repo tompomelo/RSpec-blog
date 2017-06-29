@@ -1,5 +1,9 @@
 class ArticlesController < ApplicationController
   
+  #this before_action is basically a filter, to reduce the need for repeating stuff.
+  #for this to work, you must place the set_article, inside private.
+  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  
   def index
     @articles = Article.all  
   end
@@ -21,21 +25,25 @@ class ArticlesController < ApplicationController
   
   #params id - this is when you hover over a link, and shows the id of an article
   def show
-    @article = Article.find(params[:id])  
   end
   
   def edit
-    @article = Article.find(params[:id])  
   end
   
   def update
-    @article = Article.find(params[:id])
     if @article.update(article_params)
       flash[:success] = "Article has been updated"
       redirect_to @article
     else
       flash.now[:danger] = "Articl;e has not been updated"
       render :edit
+    end
+  end
+  
+  def destroy
+    if @article.destroy
+      flash[:success] = "Article has been deleted"
+      redirect_to articles_path
     end
   end
   
@@ -48,6 +56,10 @@ class ArticlesController < ApplicationController
   end
   
   private
+  
+  def set_article
+    @article = Article.find(params[:id])
+  end
   
   def article_params
     params.require(:article).permit(:title, :body)  
